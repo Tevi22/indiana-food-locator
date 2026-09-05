@@ -1,4 +1,4 @@
-package com.indiana.foodlocator;
+package com.indiana.foodlocator.service;
 
 import com.indiana.foodlocator.entity.Favorite;
 import com.indiana.foodlocator.entity.FoodLocation;

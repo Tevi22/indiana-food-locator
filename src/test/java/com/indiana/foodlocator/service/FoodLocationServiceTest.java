@@ -1,4 +1,4 @@
-package com.indiana.foodlocator;
+package com.indiana.foodlocator.service;
 
 import com.indiana.foodlocator.entity.FoodLocation;
 import com.indiana.foodlocator.repository.FoodLocationRepository;
@@ -252,7 +252,7 @@ class FoodLocationServiceTest {
     // Test 7. Deactivating a non-existent FoodLocation test
     // This test checks that the deactivateLocation method throws an IllegalArgumentException when trying to deactivate a non-existent food location.
     // It also verifies that the repository's findById method is called once with the correct ID parameter and that the save method is not called.
-    
+
 
     @Test
     void getLocationByIdOrThrowThrowsExceptionWhenLocationNotFound() {
