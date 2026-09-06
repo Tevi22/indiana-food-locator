@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Search Food Locations | Indiana Food Locator</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg border-bottom bg-white">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="/">
+                Indiana Food Locator
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">
+                            Home
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/locations}">
+                            Search
+                        </a>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+
+                        <a class="nav-link" th:href="@{/favorites}">
+                            Favorites
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/about}">
+                            About
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/contact}">
+                            Contact
+                        </a>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+
+                        <a class="nav-link" th:href="@{/admin/locations}">
+                            Admin
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item ms-lg-3" sec:authorize="isAnonymous()">
+
+                        <a class="btn btn-outline-success" th:href="@{/login}">
+                            Login
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item ms-lg-3" sec:authorize="isAuthenticated()">
+
+                        <form th:action="@{/logout}" method="post">
+
+                            <button type="submit" class="btn btn-outline-secondary">
+                                Logout
+                            </button>
+
+                        </form>
+
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Search Bar -->
+    <section class="search-section border-bottom">
+        <div class="container py-4">
+
+            <form th:action="@{/locations}" th:method="get">
+
+                <div class="row g-3 align-items-end">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Location
+                        </label>
+
+                        <input type="text" class="form-control" name="location" th:value="${searchLocation}"
+                            placeholder="City or ZIP code">
+
+                    </div>
+
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+                            Radius
+                        </label>
+
+                        <select class="form-select">
+                            <option>10 miles</option>
+                            <option selected>25 miles</option>
+                            <option>50 miles</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Food Type
+                        </label>
+
+                        <select class="form-select" name="category">
+
+                            <option value="" th:selected="${selectedCategory == null || selectedCategory == ''}">
+                                All Types
+                            </option>
+
+                            <option value="Food Pantry" th:selected="${selectedCategory == 'Food Pantry'}">
+                                Food Pantry
+                            </option>
+
+                            <option value="Soup Kitchen" th:selected="${selectedCategory == 'Soup Kitchen'}">
+                                Soup Kitchen
+                            </option>
+
+                            <option value="Meal Program" th:selected="${selectedCategory == 'Meal Program'}">
+                                Meal Program
+                            </option>
+
+                            <option value="Mobile Pantry" th:selected="${selectedCategory == 'Mobile Pantry'}">
+                                Mobile Pantry
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <button type="submit" class="btn btn-success w-100">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </section>
+
+
+    <!-- Results -->
+    <main class="container py-4">
+
+        <div class="row">
+
+            <!-- Filters -->
+            <aside class="col-lg-3 mb-4">
+
+                <div class="filter-panel">
+
+                    <h5>Filter Results</h5>
+
+                    <hr>
+
+                    <h6>Food Type</h6>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="pantry">
+
+                        <label class="form-check-label" for="pantry">
+                            Food Pantry
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="meal">
+
+                        <label class="form-check-label" for="meal">
+                            Soup Kitchen / Meal
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="mobile">
+
+                        <label class="form-check-label" for="mobile">
+                            Mobile Pantry
+                        </label>
+                    </div>
+
+                    <hr>
+
+                    <h6>Open Now</h6>
+
+                    <div class="form-check">
+
+                        <input class="form-check-input" type="checkbox" id="openNow">
+
+                        <label class="form-check-label" for="openNow">
+                            Yes
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- Location Results -->
+            <section class="col-lg-9">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <h2 class="h4 mb-0">
+                        Food Assistance Locations
+                    </h2>
+
+                    <span class="text-muted" th:text="${#lists.size(locations) + ' results'}">
+                        0 results
+                    </span>
+
+                </div>
+
+
+                <!-- No results -->
+                <div th:if="${#lists.isEmpty(locations)}" class="alert alert-info">
+
+                    No food locations are currently available.
+
+                </div>
+
+
+                <!-- Dynamic location cards -->
+                <div th:each="location : ${locations}" class="location-card">
+
+                    <div class="row align-items-center">
+
+                        <!-- Placeholder image -->
+                        <div class="col-md-3">
+
+                            <div class="location-image">
+                                Food Assistance
+                            </div>
+
+                        </div>
+
+
+                        <!-- Location information -->
+                        <div class="col-md-7">
+
+                            <h3 class="h5" th:text="${location.name}">
+                                Location Name
+                            </h3>
+
+                            <p class="mb-1">
+
+                                <span th:text="${location.address}">
+                                    Address
+                                </span>
+
+                            </p>
+
+                            <p class="mb-1 text-muted">
+
+                                <span th:text="${location.city}">
+                                    City
+                                </span>,
+
+                                <span th:text="${location.state}">
+                                    IN
+                                </span>
+
+                                <span th:text="${location.zipCode}">
+                                    ZIP
+                                </span>
+
+                            </p>
+
+                            <p class="mb-2">
+
+                                <strong>Hours:</strong>
+
+                                <span th:text="${location.hours}">
+                                    Hours
+                                </span>
+
+                            </p>
+
+                            <span class="badge text-bg-success" th:text="${location.category}">
+                                Food Pantry
+                            </span>
+
+                        </div>
+
+
+                        <!-- Details button -->
+                        <div class="col-md-2 text-md-end mt-3 mt-md-0">
+
+                            <a th:href="@{/locations/{id}(id=${location.id})}" class="btn btn-outline-success btn-sm">
+                                View Details
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

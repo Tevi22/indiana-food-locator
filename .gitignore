@@ -32,5 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-# Local application configuration
+# Local Spring configuration / secrets
 src/main/resources/application-local.properties
+>>>>>>> develop
