@@ -6,8 +6,6 @@ import com.indiana.foodlocator.entity.User;
 import com.indiana.foodlocator.repository.FavoriteRepository;
 import com.indiana.foodlocator.repository.FoodLocationRepository;
 import com.indiana.foodlocator.repository.UserRepository;
-import com.indiana.foodlocator.service.FavoriteService;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;

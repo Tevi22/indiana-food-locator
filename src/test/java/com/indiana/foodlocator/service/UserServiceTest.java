@@ -2,8 +2,6 @@ package com.indiana.foodlocator.service;
 
 import com.indiana.foodlocator.entity.User;
 import com.indiana.foodlocator.repository.UserRepository;
-import com.indiana.foodlocator.service.UserService;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -2,8 +2,6 @@ package com.indiana.foodlocator.service;
 
 import com.indiana.foodlocator.entity.FoodLocation;
 import com.indiana.foodlocator.repository.FoodLocationRepository;
-import com.indiana.foodlocator.service.FoodLocationService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
