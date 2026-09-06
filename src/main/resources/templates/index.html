@@ -105,6 +105,15 @@
 
     </nav>
 
+    <!-- Display login success message for users who have just logged in -->
+    <div class="container mt-3" th:if="${param.loginSuccess}">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Login successful!</strong> Welcome back.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    </div>
+
 
     <!-- Hero Section -->
     <section class="home-hero">
